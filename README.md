@@ -6,7 +6,7 @@ This is the complete source code and the build instructions for the alpha versio
 [![issuses](https://img.shields.io/github/issues/hanriel/Sent-Core)](https://github.com/hanriel/Sent-Core/issues)
 [![issuses](https://img.shields.io/github/license/hanriel/Sent-Core)](https://github.com/hanriel/Sent-Core/license)
 
-[![Preview of Telegram Desktop][preview_image]][preview_image_url]
+[![Preview of Sent Core][preview_image]][preview_image_url]
 
 The source code is published under GPLv3, the license is available [here][license].
 
@@ -38,4 +38,4 @@ The latest version is available for
 [xcode_old]: docs/building-xcode-old.md
 [cmake]: docs/building-cmake.md
 [preview_image]: https://github.com/telegramdesktop/tdesktop/blob/dev/docs/assets/preview.png "Preview of Telegram Desktop"
-[preview_image_url]: https://raw.githubusercontent.com/hanriel/sent-core/dev/docs/assets/preview.jpeg
+[preview_image_url]: https://raw.githubusercontent.com/hanriel/sent-core/main/docs/assets/preview.jpeg
