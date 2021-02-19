@@ -1,6 +1,6 @@
-# [Sent Core][Sent-Core] – Official Messenger
+# [Sent Core][sent_core] – Official Messenger
 
-This is the complete source code and the build instructions for the alpha version of the official server, based on the [Sent API][Sent-api].
+This is the complete source code and the build instructions for the alpha version of the official server, based on the [Sent API][sent_api].
 
 [![Version](https://badge.fury.io/gh/hanriel%2Fsent-core.svg)](https://github.com/hanriel/sentcore/releases)
 [![issuses](https://img.shields.io/github/issues/hanriel/Sent-Core)](https://github.com/hanriel/Sent-Core/issues)
@@ -30,14 +30,12 @@ The latest version is available for
 * [CMake on GNU/Linux][cmake]
 
 [//]: # (LINKS)
-[telegram]: https://telegram.org
-[telegram_desktop]: https://desktop.telegram.org
-[telegram_api]: https://core.telegram.org
-[telegram_proto]: https://core.telegram.org/mtproto
+[sent_core]: https://github.com/hanriel/sent-core
+[sent_api]: https://github.com/hanriel/sent-api
 [license]: LICENSE
 [msvc]: docs/building-msvc.md
 [xcode]: docs/building-xcode.md
 [xcode_old]: docs/building-xcode-old.md
 [cmake]: docs/building-cmake.md
 [preview_image]: https://github.com/telegramdesktop/tdesktop/blob/dev/docs/assets/preview.png "Preview of Telegram Desktop"
-[preview_image_url]: https://raw.githubusercontent.com/telegramdesktop/tdesktop/dev/docs/assets/preview.png
+[preview_image_url]: https://raw.githubusercontent.com/hanriel/sent-core/dev/docs/assets/preview.jpeg
