@@ -27,6 +27,4 @@ target_include_directories(
         ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-
-
 target_link_libraries(Sent-Core spdlog)
