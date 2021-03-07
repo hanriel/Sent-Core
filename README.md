@@ -5,7 +5,7 @@ This is the complete source code and the build instructions for the alpha versio
 [![issues](https://img.shields.io/github/issues/hanriel/Sent-Core)](https://github.com/hanriel/Sent-Core/issues)
 [![issues](https://img.shields.io/github/license/hanriel/Sent-Core)](https://github.com/hanriel/Sent-Core/license)
 
-[![Preview of Sent Core][preview_image]][preview_image_url]
+[![Preview of Sent Core][preview_image_url]][preview_image_url]
 
 The source code is published under GPLv3, the license is available [here][license].
 
