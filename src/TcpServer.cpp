@@ -4,8 +4,14 @@
 
 #include "TcpServer.h"
 #include <chrono>
+#include <spdlog/spdlog.h>
 
-TcpServer::TcpServer(const uint16_t port, handler_function_t handler) : port(port), handler(handler) {}
+
+#define SHOST INADDR_ANY
+#define SPORT 25555
+#define SPROT "TCP"
+
+TcpServer::TcpServer(handler_function_t handler) : handler(handler) {}
 
 //Деструктор останавливает сервер если он был запущен
 TcpServer::~TcpServer() {
@@ -38,13 +44,16 @@ bool TcpServer::Client::sendData(const char *buffer, const size_t size) const {
 }
 
 
-//Запуск сервера (по аналогии с реализацией для Windows)
+//Запуск сервера
 TcpServer::status TcpServer::startServer() {
+
     struct sockaddr_in server;
-    server.sin_addr.s_addr = INADDR_ANY;
-    server.sin_port = htons(port);
+    server.sin_addr.s_addr = SHOST;
+    server.sin_port = htons(SPORT);
     server.sin_family = AF_INET;
     serv_socket = socket(AF_INET, SOCK_STREAM, 0);
+
+    spdlog::info("Starting Sent server on {}:{}", SHOST, SPORT);
 
     if (serv_socket == -1) return _status = status::err_socket_init;
     if (bind(serv_socket, (struct sockaddr *) &server, sizeof(server)) < 0) return _status = status::err_socket_bind;
@@ -95,7 +104,8 @@ void TcpServer::handlingLoop() {
 }
 
 TcpServer::Client::Client(int socket, struct sockaddr_in address) : socket(socket), address(address) {}
-TcpServer::Client::Client(const TcpServer::Client& other) : socket(other.socket), address(other.address) {}
+
+TcpServer::Client::Client(const TcpServer::Client &other) : socket(other.socket), address(other.address) {}
 
 TcpServer::Client::~Client() {
     shutdown(socket, 0);
@@ -103,4 +113,5 @@ TcpServer::Client::~Client() {
 }
 
 uint32_t TcpServer::Client::getHost() const { return address.sin_addr.s_addr; }
-uint16_t TcpServer::Client::getPort() const {return address.sin_port;}
+
+uint16_t TcpServer::Client::getPort() const { return address.sin_port; }

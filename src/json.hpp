@@ -12842,7 +12842,7 @@ class binary_writer
                 }
                 else
                 {
-                    // The conversions below encode the sign in the first
+                    // The conversions below encrypt the sign in the first
                     // byte, and the value is converted to a positive number.
                     const auto positive_number = -1 - j.m_value.number_integer;
                     if (j.m_value.number_integer >= -24)

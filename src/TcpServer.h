@@ -34,7 +34,7 @@ public:
         close = 4
     };
 
-    TcpServer(unsigned short port, handler_function_t handler);
+    TcpServer(handler_function_t handler);
 
     ~TcpServer();
 
@@ -53,8 +53,6 @@ public:
 
 
 private:
-
-    uint16_t port;
     status _status = status::close;
     handler_function_t handler;
 
