@@ -19,12 +19,9 @@ set(HEADERS
         Logger.h
 )
 
-add_executable(Sent-Core ${SOURCES} ${HEADERS})
+add_executable(Sent ${SOURCES} ${HEADERS})
+target_include_directories(Sent PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-target_include_directories(
-        Sent-Core
-        PRIVATE
-        ${CMAKE_CURRENT_BINARY_DIR}
-)
+add_subdirectory(ThirdParty/spdlog)
 
-target_link_libraries(Sent-Core spdlog)
+target_link_libraries(Sent spdlog)

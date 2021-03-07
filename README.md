@@ -1,7 +1,7 @@
 # [Sent Core][sent_core] – Official Messenger Server
 This is the complete source code and the build instructions for the alpha version of the official messenger server, based on the [Sent API][sent_api].
 
-[![version](https://badge.fury.io/gh/hanriel%2Fsent-core.svg)](https://github.com/hanriel/sentcore/releases)
+[![version](https://badge.fury.io/gh/hanriel%2Fsent-core.svg)](https://github.com/hanriel/Sent-Core/releases)
 [![issues](https://img.shields.io/github/issues/hanriel/Sent-Core)](https://github.com/hanriel/Sent-Core/issues)
 [![issues](https://img.shields.io/github/license/hanriel/Sent-Core)](https://github.com/hanriel/Sent-Core/license)
 
