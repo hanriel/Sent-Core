@@ -23,6 +23,7 @@ void TcpServer::setHandler(TcpServer::handler_function_t handler) { this->handle
 
 //Перезапуск сервера
 TcpServer::status TcpServer::restartServer() {
+    spdlog::info("Reloading server...");
     if (_status == status::up)
         stopServer();
     return startServer();

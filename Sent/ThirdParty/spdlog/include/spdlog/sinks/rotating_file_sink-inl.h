@@ -117,7 +117,7 @@ SPDLOG_INLINE void rotating_file_sink<Mutex>::rotate_()
     file_helper_.reopen(true);
 }
 
-// delete the target if exists, and rename the Sent file  to target
+// delete the target if exists, and rename the src file  to target
 // return true on success, false otherwise.
 template<typename Mutex>
 SPDLOG_INLINE bool rotating_file_sink<Mutex>::rename_file_(const filename_t &src_filename, const filename_t &target_filename)

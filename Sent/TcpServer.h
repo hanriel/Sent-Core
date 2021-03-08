@@ -21,6 +21,8 @@ static constexpr uint16_t buffer_size = 4096;
 
 class TcpServer {
 public:
+    TcpServer();
+
     class Client;
 
     typedef std::function<void(Client)> handler_function_t;

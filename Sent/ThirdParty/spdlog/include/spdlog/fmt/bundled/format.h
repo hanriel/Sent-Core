@@ -1030,7 +1030,7 @@ inline bool equal2(const char* lhs, const char* rhs) {
   return memcmp(lhs, rhs, 2) == 0;
 }
 
-// Copies two characters from Sent to dst.
+// Copies two characters from src to dst.
 template <typename Char> void copy2(Char* dst, const char* src) {
   *dst++ = static_cast<Char>(*src++);
   *dst = static_cast<Char>(*src);

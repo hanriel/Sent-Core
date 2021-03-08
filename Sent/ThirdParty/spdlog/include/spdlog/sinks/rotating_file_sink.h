@@ -38,7 +38,7 @@ private:
     // log.3.txt -> delete
     void rotate_();
 
-    // delete the target if exists, and rename the Sent file  to target
+    // delete the target if exists, and rename the src file  to target
     // return true on success, false otherwise.
     bool rename_file_(const filename_t &src_filename, const filename_t &target_filename);
 

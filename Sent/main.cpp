@@ -77,8 +77,7 @@ void sendMessage(char buffer[4096]) {
 
 }
 
-bool isPrime(int number)
-{
+bool isPrime(int number) {
     for (int a = 2; a < number; a++) {
         if (number % a == 0) {
             return false;
@@ -88,30 +87,29 @@ bool isPrime(int number)
 }
 
 #include "spdlog/sinks/basic_file_sink.h"
-void basic_logfile_example()
-{
-    try
-    {
+
+void basic_logfile_example() {
+    try {
         auto logger = spdlog::basic_logger_mt("basic_logger", "logs/log.txt");
     }
-    catch (const spdlog::spdlog_ex &ex)
-    {
+    catch (const spdlog::spdlog_ex &ex) {
         std::cout << "Log init failed: " << ex.what() << std::endl;
     }
 }
 
-int main() {
-
+void initLog(){
     spdlog::set_pattern("[%H:%M:%S %z] [thread %t/%l] %v");
     spdlog::info("Starting Sent server version {}", PROJECT_VERSION);
     basic_logfile_example();
+}
 
+void initRSA(){
     srand(time(nullptr));
 
     int foo[2];
-    for(int & i : foo){
+    for (int &i : foo) {
         int random = rand() % 65535;
-        for (int currentNum = random; ; currentNum--)
+        for (int currentNum = random;; currentNum--)
             if (isPrime(currentNum)) {
                 i = currentNum;
                 break;
@@ -127,60 +125,92 @@ int main() {
 
     vector<uint8_t> ret2 = tiny_rsa::decrypt(ret, key_pair.second);
     spdlog::info("{} -> {}", tiny_rsa::vecToString(ret), tiny_rsa::vecToString(ret2));
+}
 
-    array<Message, 0> broad{};
-
-    TcpServer server([](TcpServer::Client client) {
-                         //Вывод адреса подключившего клиента в консоль
-                         spdlog::info("Connect host!");
-
-                         User *user = initUser(client);
-
-                         if (user == nullptr) { return 1; } //Если имя пользователя пустое - заверщаем сессию
-
-                         spdlog::info("{} joined to chat", user->username);
-
-                         //Message msg{user->username, user->username + " has joined\n", false};
-                         //append(broad, msg);
-
-                         for (;;) {
-                             //Ожидание данных от клиента
-                             int size = 0;
-                             while (!(size = client.loadData()));
-
-                             if (size == -1)
-                                 continue;
-                             //Вывод размера данных и самих данных в лог
-                             spdlog::info("{}==================={}", size, client.getData());
-
-                             std::vector<std::string> words;
-                             split(client.getData(), words, ':');
-
-                             if (words.size()<2 || words[0] != "msg"){ continue; }
-                             //Message msg{user->username, append("Hanriel:" + words[1]), false};
-                             //append(broad, msg);
-
-    //                         std::string str = client.getData();
-    //                         std::cout << str << std::endl << "===================" << std::endl;
-                             std::string ans = "Hanriel:HTTP/1.0 200 OK\r";
-    //
-    //                         //Отправка ответа клиенту
-    //                         //const char answer[1024];
-                             char *tab2 = new char[ans.length() + 1];
-                             std::strcpy(tab2, ans.c_str());
-                             client.sendData(tab2, sizeof(tab2));
-                         }
-                     }
-    );
-
+int startServer(TcpServer *server){
     //Запуск серевера
-    if (server.startServer() == TcpServer::status::up) {
+    if (server->startServer() == TcpServer::status::up) {
         //Если сервер запущен вывести сообщение и войти в поток ожиданий клиентов
         spdlog::info("Server is up!");
-        server.joinLoop();
+        server->joinLoop();
     } else {
         //Если сервер не запущен вывод кода ошибки и заверешение программы
-        spdlog::error("Server start error! Error code: {}", int(server.getStatus()));
+        spdlog::error("Server start error! Error code: {}", int(server->getStatus()));
         return -1;
     }
+}
+
+void help() {
+    cout << "---- tinyRSA\n"
+            "start -- Start serve\n"
+            "d <exp> <mod> <file in> <file out> -- Decrypt file\n"
+            "g -- Generate key pair from default primes\n"
+            "G <p> <q> -- Generate key pair from primes\n"
+            "h -- Help\n"
+            "q -- Exit\n" << endl;
+}
+
+int main() {
+
+    initLog();
+    initRSA();
+
+    TcpServer server ([](TcpServer::Client client) {
+        //Вывод адреса подключившего клиента в консоль
+        spdlog::info("Connect host! {}", client.getHost());
+
+        User *user = initUser(client);
+
+        if (user == nullptr) { return 1; } //Если имя пользователя пустое - заверщаем сессию
+
+        spdlog::info("{} joined to chat", user->username);
+
+        //Message msg{user->username, user->username + " has joined\n", false};
+        //append(broad, msg);
+
+        for (;;) {
+            //Ожидание данных от клиента
+            int size = 0;
+            while (!(size = client.loadData()));
+
+            if (size == -1)
+                continue;
+            //Вывод размера данных и самих данных в лог
+            spdlog::info("{}==================={}", size, client.getData());
+
+            std::vector<std::string> words;
+            split(client.getData(), words, ':');
+
+            if (words.size() < 2 || words[0] != "msg") { continue; }
+            //Message msg{user->username, append("Hanriel:" + words[1]), false};
+            //append(broad, msg);
+
+            //                         std::string str = client.getData();
+            //                         std::cout << str << std::endl << "===================" << std::endl;
+            std::string ans = "Hanriel:HTTP/1.0 200 OK\r";
+            //
+            //                         //Отправка ответа клиенту
+            //                         //const char answer[1024];
+            char *tab2 = new char[ans.length() + 1];
+            std::strcpy(tab2, ans.c_str());
+            client.sendData(tab2, sizeof(tab2));
+        }
+    });
+    startServer(&server);
+
+    while (true) {
+        char cmd;
+        cin >> cmd;
+        if (cmd == 'q') {
+            cout << "Bye." << endl;
+            break;
+        } else if (cmd == 'r') {
+            server.restartServer();
+        } else if (cmd == 's') {
+            server.stopServer();
+        } else if (cmd == 'h')
+            help();
+    }
+
+    return 0;
 }
