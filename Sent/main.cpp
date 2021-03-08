@@ -1,6 +1,6 @@
 #include "TcpServer.h"
 #include "json.hpp"
-#include "Message.h"
+//#include "Message.h"
 #include "User.h"
 #include "tiny_rsa.h"
 
@@ -12,8 +12,8 @@
 
 using namespace std;
 
-std::map<int, std::string> msg_db;
-int msgCount = 0;
+//std::map<int, std::string> msg_db;
+//int msgCount = 0;
 
 template<typename T, std::size_t N, std::size_t... I>
 constexpr std::array<T, N + 1>
@@ -65,17 +65,15 @@ User *initUser(TcpServer::Client client) {
     return &User{Username: info[1]}*/
 }
 
-
-void sendMessage(char buffer[4096]) {
-    try {
-        msg_db[++msgCount] = buffer;
-        std::string str = msg_db[msgCount];
-        msg_db[msgCount] = str.substr(str.find('{'));
-    } catch (const std::exception &e) {
-        std::cerr << e.what();
-    }
-
-}
+//void sendMessage(char buffer[4096]) {
+//    try {
+//        msg_db[++msgCount] = buffer;
+//        std::string str = msg_db[msgCount];
+//        msg_db[msgCount] = str.substr(str.find('{'));
+//    } catch (const std::exception &e) {
+//        std::cerr << e.what();
+//    }
+//}
 
 bool isPrime(int number) {
     for (int a = 2; a < number; a++) {
@@ -138,6 +136,8 @@ int startServer(TcpServer *server){
         spdlog::error("Server start error! Error code: {}", int(server->getStatus()));
         return -1;
     }
+
+    return 0;
 }
 
 void help() {
@@ -194,7 +194,10 @@ int main() {
             char *tab2 = new char[ans.length() + 1];
             std::strcpy(tab2, ans.c_str());
             client.sendData(tab2, sizeof(tab2));
+
+            if("bye:00000000" == client.getData()) break;
         }
+        return 0;
     });
     startServer(&server);
 
